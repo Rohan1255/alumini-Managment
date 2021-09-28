@@ -16,6 +16,8 @@ public interface AluminiRepository extends JpaRepository<Alumini,Integer>{
 	List<Alumini>  findByPassingYear(String year);
 	
 	Optional<Alumini> findByEmail(String email);
-	
+
 	List<Alumini> findByLastName(String lastName);
+	
+	
 }

@@ -1,49 +1,60 @@
 package com.app.testdao;
 
 import static com.app.pojos.Role.ALUMINI;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.app.customexception.UserHandlingException;
+import com.app.dao.AluminiRepository;
 import com.app.pojos.Alumini;
-import com.app.pojos.Course;
-import com.app.pojos.Role;
-import com.app.service.IAdminService;
-import com.app.service.IUserService;
 
-@SpringBootTest
+@DataJpaTest
 public class TestUserDao {
+	
 	@Autowired
-	private IUserService userSerivce;
-	@Autowired
-	private IAdminService adminService;
-
-	@Test
-	public void TestRegisterAlumini() {
-		Alumini alumini = new Alumini("Prasad", "Talekar", "pra@123", "prasad213", "123445", "1234", "2020", ALUMINI,
-				null, new Course("eDAC"),null,null);
-		userSerivce.addAlumini(alumini);
-		Alumini al = adminService.findByEmail("pra@123");
-		assertTrue(al.getEmail().equals("pra@123"));
+	private AluminiRepository aluminiRepo;
+	
+	@BeforeEach
+	public void Test1_RegisterAlumini() {
+		Alumini alumini = new Alumini("Prasad", "Talekar", "prasad@gmail.com", "prasad213", "123445", "1234", "2020", ALUMINI,
+				null,null,null,null);
+		Alumini registeredAlumini = aluminiRepo.save(alumini);
+		assertNotNull(registeredAlumini);
 	}
-
+	
 	@Test
-	public void TestLogin() {
-		Alumini al = userSerivce.authenticateAlumini("pra@123", "1234");
-		assertTrue(al != null && al.getRole() == Role.ALUMINI);
+	public void test2_FindByemail() {
+		String email = "prasad@gmail.com";
+		Alumini alumini1 = aluminiRepo.findByEmail(email).orElseThrow(() -> new UserHandlingException("find by email failed"));
+		assertTrue(alumini1.getEmail().equals(email));
 	}
-
 	@Test
-	public void testLoginWithInvalidCredentials() {
-		try {
-			userSerivce.authenticateAlumini("pra@123123", "1234");
-			assertTrue(false);
-		} catch (UserHandlingException e) {
-			assertTrue(e.getMessage().equals("invlid email/password"));
-		}
+	public void test3_FindByfindByLastName() {
+		String lastName = "Talekar";
+		List<Alumini> list= aluminiRepo.findByLastName(lastName);
+		assertTrue(!list.isEmpty());
 	}
-
+	
+	@Test
+	public void test54_FindByPassingYear() {
+		String passingYear = "2020";
+		List<Alumini> list = aluminiRepo.findByPassingYear(passingYear);
+		assertTrue(!list.isEmpty());
+	}
+	
+	@Test
+	public void test5_Login() {
+		String email = "prasad@gmail.com";
+		String password = "1234";
+		Alumini loggedAlumini = aluminiRepo.findByEmailAndPassword(email, password).orElseThrow(()-> new UserHandlingException("login failed"));
+		assertNotNull(loggedAlumini);
+	}
+	
 }

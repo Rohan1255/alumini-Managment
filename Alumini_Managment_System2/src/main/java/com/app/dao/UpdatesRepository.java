@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.app.pojos.Update;
 
 public interface UpdatesRepository extends JpaRepository<Update,Integer>{
+	
 }

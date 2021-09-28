@@ -23,13 +23,13 @@ import com.app.service.IUserService;
 
 @RestController
 @RequestMapping("/admin")
-@CrossOrigin
+@CrossOrigin("*")
 public class AdminRestController {
 	@Autowired
 	private IAdminService adminService;
 	@Autowired
 	private IUserService userService;
-
+ 
 	@PostMapping("/alumini")
 	public ResponseEntity<Alumini> addAlumini(@RequestBody @Valid Alumini alumini) {
 		return ResponseEntity.ok(userService.addAlumini(alumini));
