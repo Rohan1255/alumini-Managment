@@ -89,5 +89,11 @@ public class AdminServiceImpl implements IAdminService {
 		 feedbackRepo.deleteById(feedbackId);
 		 return "feedback with feedback id "+ feedbackId +" is deleted";
 	}
+
+	@Override
+	public String deleteCourse(int courseId) {
+		 courseRepo.deleteById(courseId);
+		 return "Course with Course id "+ courseId +" is deleted";
+	}
 	
 }

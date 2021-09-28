@@ -30,4 +30,6 @@ public interface IAdminService {
 	List<Alumini> findByLastName(String lastName);
 	
 	String deleteFeedback(int feedbackId);
+	
+	String deleteCourse(int courseId);
 }

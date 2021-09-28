@@ -90,6 +90,12 @@ public class AdminRestController {
 		return ResponseEntity.ok(adminService.addNewCourse(course));
 	}
 	
+	@DeleteMapping("/course/{id}")
+	public ResponseEntity<String> deleteCourse(@PathVariable int id){
+		return ResponseEntity.ok(adminService.deleteCourse(id));
+	}
+	
+	
 	@GetMapping("/feedback")
 	public ResponseEntity<?> getAllFeedback() {
 		return ResponseEntity.ok(adminService.getAllFeedback());
