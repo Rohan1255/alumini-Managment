@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dto.LoginRequest;
 import com.app.pojos.Alumini;
 import com.app.service.IUserService;
 
@@ -27,8 +28,8 @@ public class UserRestController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<Alumini> findbyEmailAndPassword(@RequestBody Alumini alumini) {
-		return ResponseEntity.ok(userService.authenticateAlumini(alumini.getEmail(), alumini.getPassword()));
+	public ResponseEntity<Alumini> findbyEmailAndPassword(@RequestBody LoginRequest request) {
+		return ResponseEntity.ok(userService.authenticateAlumini(request.getEmail(), request.getPassword()));
 	}
 
 	@PostMapping("/register")
